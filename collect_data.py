@@ -1,17 +1,16 @@
 
-
-# datacollector.py
+    
+# collect_data.py
 
 # yilong song
-# Apr 6, 2023
+# Apr 28, 2023
 
-# Run this script with python3 datacollector.py before each session of data collection
+# Run this script with python3 collect_data.py before each session of data collection
 # Press escape key to exit
 # Need to clean up images collected in the beginning and near the end
 
-from pynput import keyboard
-from pynput.keyboard import Key, Listener
-    
+from pynput import keyboard # For taking screenshots upon keypresses
+from pynput.keyboard import Key
 import threading # To handle threading
 import time
 import random
@@ -29,6 +28,11 @@ def screenshot(directory):
 
         # Save file
         mss.tools.to_png(img.rgb, img.size, output='./dataset/raw/'+directory+'/'+str(random.randint(100000, 1000000))+'.png')
+        img = sct.grab({'top': 25, 'left': 0, 'width': 788, 'height': 619}) # This is the correct region to capture on my mac
+        # When moving the BlueStacks simulator window to the top left corner of the screen.
+
+        # Save file
+        mss.tools.to_png(img.rgb, img.size, output='dataset/raw/'+directory+'/'+str(random.randint(100000, 1000000))+'.png')
     
 
 def on_press(key):
@@ -61,8 +65,4 @@ def main():
         screenshot('noop')
         print('noop')
         time.sleep(1/number_screenshots_per_second)
-            
 
-
-if __name__ == '__main__':
-    main()
