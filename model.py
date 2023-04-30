@@ -97,7 +97,7 @@ def main():
     y_train = torch.tensor(y_train, dtype=torch.float).to(device)
 
     # Hyperparameters
-    num_epochs = 1
+    num_epochs = 40
     batch_size = 30
     num_batches = len(X_train) // batch_size
 
