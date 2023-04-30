@@ -39,14 +39,10 @@ def screenshot():
     image_pil = transforms.ToPILImage()(img_rgb)
 
     transform = transforms.Compose([transforms.PILToTensor()])
-
     img_tensor = transform(image_pil)
 
-    resized_img = transforms.Resize((180,136), interpolation=transforms.InterpolationMode.BILINEAR)(img_tensor)
+    resized_img = transforms.Resize((186,236), interpolation=transforms.InterpolationMode.BILINEAR)(img_tensor)
     resized_img = resized_img/255
-
-    # image_pil = transforms.ToPILImage()(resized_img)
-    # image_pil.show()
     
 
     return resized_img
@@ -74,10 +70,8 @@ def play(model):
 
     while True:
         x = screenshot()
-
-        pred = softmax(model.forward(x))
+        pred = softmax(model.forward(x.unsqueeze(0)))
         max_index = torch.argmax(pred[0])
-        # print(pred)
 
         move(max_index)
         time.sleep(0.2)
@@ -86,11 +80,10 @@ def play(model):
 
 
 def main():
-    # model = torch.load('convnet_trained.pth')
-    # model.eval()
+    model = torch.load('convnet_trained.pth')
+    model.eval()
 
-    # play(model)
-    screenshot()
+    play(model)
 
 
 
