@@ -3,6 +3,7 @@
 # Apr 28, 2023
 
 import os
+os.environ['KMP_DUPLICATE_LIB_OK']='True'
 import cv2
 import torchvision.transforms as transforms
 import numpy as np
