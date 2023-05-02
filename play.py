@@ -25,7 +25,7 @@ import mss
 import mss.tools
 
 
-number_screenshots_per_second = 50
+number_screenshots_per_second = 3
 
 def screenshot():
     # Takes screenshot and downsamples
@@ -74,13 +74,13 @@ def play(model):
         max_index = torch.argmax(pred[0])
 
         move(max_index)
-        time.sleep(0.2)
+        time.sleep(1/number_screenshots_per_second)
         
 
 
 
 def main():
-    model = torch.load('convnet_trained.pth')
+    model = torch.load('convnet_trained.pth', map_location=torch.device('cpu'))
     model.eval()
 
     play(model)
