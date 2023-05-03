@@ -24,28 +24,33 @@ import cv2
 import mss
 import mss.tools
 
+from smartcrop_data import load_to_clear, load_templates, smart_crop
+
+import random
+
 
 number_screenshots_per_second = 3
 
-def screenshot():
-    # Takes screenshot and downsamples
+def screenshot(to_clear, templates):
+    # Takes screenshot, downsamples, and smart crops
     with mss.mss() as sct:
-        img = sct.grab({'top': 25, 'left': 0, 'width': 788, 'height': 619}) # This is the correct region to capture on my mac
-        # When moving the BlueStacks simulator window to the top left corner of the screen.
-    
+        img = sct.grab({'top': 25, 'left': 0, 'width': 788, 'height': 619})
+
     img_np = np.array(img)
-    img_rgb = cv2.cvtColor(img_np, cv2.COLOR_BGR2RGB)
 
-    image_pil = transforms.ToPILImage()(img_rgb)
+    # Downsample
+    resized_np = cv2.resize(img_np, (236,186))
+    resized_np = cv2.cvtColor(resized_np, cv2.COLOR_BGR2RGB)
 
-    transform = transforms.Compose([transforms.PILToTensor()])
-    img_tensor = transform(image_pil)
+    # smart crop
+    resized_np = smart_crop(resized_np, templates, to_clear)
 
-    resized_img = transforms.Resize((186,236), interpolation=transforms.InterpolationMode.BILINEAR)(img_tensor)
-    resized_img = resized_img/255
-    
+    # convert to tensor and normalize
+    resized_tensor = torch.from_numpy(resized_np)
+    resized_tensor = resized_tensor/255
 
-    return resized_img
+
+    return resized_tensor
 
 
 def move(n):
@@ -65,11 +70,11 @@ def move(n):
         print('noop')
     
 
-def play(model):
+def play(model, to_clear, templates):
     softmax = nn.Softmax(dim=1)
 
     while True:
-        x = screenshot()
+        x = screenshot(to_clear, templates)
         pred = softmax(model.forward(x.unsqueeze(0)))
         max_index = torch.argmax(pred[0])
 
@@ -83,7 +88,12 @@ def main():
     model = torch.load('convnet_trained.pth', map_location=torch.device('cpu'))
     model.eval()
 
-    play(model)
+    to_clear = [] # Pixels that we exclude from tracking
+    templates = []
+    load_to_clear(to_clear)
+    load_templates(templates)
+
+    play(model, to_clear, templates)
 
 
 

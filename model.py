@@ -34,7 +34,7 @@ class ConvNet(nn.Module):
         )
         
         self.fc_layers = nn.Sequential(
-            nn.Linear(128 * 11 * 14, 512),
+            nn.Linear(128*5*14, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(p=0.5),
             nn.Linear(512, 5),
@@ -61,23 +61,28 @@ def main():
     X = []
     y = []
 
-    for folder in ['downsampled_down', 'downsampled_left', 'downsampled_right', 'downsampled_up', 'downsampled_noop']:
-        for file in os.listdir('dataset/'+folder):
+    for folder in ['down', 'left', 'right', 'up', 'noop']:
+        for file in os.listdir('dataset/smart_cropped/'+folder):
             if file == '.DS_Store':
                 continue
-            x = Image.open('dataset/'+folder+'/'+file)
+            x = Image.open('dataset/smart_cropped/'+folder+'/'+file)
             transform = transforms.ToTensor()
             x = transform(x)
+
+            # safeguard against uneven results yielded from smartcropping
+            if x.shape!=(3,88,236):
+                continue
+
             X.append(x)
-            if folder == 'downsampled_up':
+            if folder == 'up':
                 y.append(0)
-            if folder == 'downsampled_down':
+            if folder == 'down':
                 y.append(1)
-            if folder == 'downsampled_left':
+            if folder == 'left':
                 y.append(2)
-            if folder == 'downsampled_right':
+            if folder == 'right':
                 y.append(3)
-            if folder == 'downsampled_noop':
+            if folder == 'noop':
                 y.append(4)
 
 

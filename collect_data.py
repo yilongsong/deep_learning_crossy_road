@@ -28,11 +28,6 @@ def screenshot(directory):
 
         # Save file
         mss.tools.to_png(img.rgb, img.size, output='./dataset/raw/'+directory+'/'+str(random.randint(100000, 1000000))+'.png')
-        img = sct.grab({'top': 25, 'left': 0, 'width': 788, 'height': 619}) # This is the correct region to capture on my mac
-        # When moving the BlueStacks simulator window to the top left corner of the screen.
-
-        # Save file
-        mss.tools.to_png(img.rgb, img.size, output='dataset/raw/'+directory+'/'+str(random.randint(100000, 1000000))+'.png')
     
 
 def on_press(key):
@@ -57,7 +52,6 @@ def start_key_listener():
         listener.join()
 
 def main():
-
     key_listener_thread = threading.Thread(target=start_key_listener)
     key_listener_thread.start()
 
@@ -65,4 +59,8 @@ def main():
         screenshot('noop')
         print('noop')
         time.sleep(1/number_screenshots_per_second)
+
+
+if __name__ == '__main__':
+    main()
 
