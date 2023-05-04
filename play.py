@@ -11,25 +11,21 @@ import torchvision.transforms as transforms
 import torch.nn as nn
 
 import pyautogui # For taking screenshots
-import time # For taking screenshots at an interval (IS THIS NECESSARY?)
+import time
 from pynput import keyboard # For taking screenshots upon keypresses
 from pynput.keyboard import Key
-
 import numpy as np
-
 import matplotlib.pyplot as plt
-
 import cv2
-
 import mss
 import mss.tools
 
 from smartcrop_data import load_to_clear, load_templates, smart_crop
 
-import random
+import time
 
 
-number_screenshots_per_second = 10
+number_screenshots_per_second = 2
 
 def screenshot(to_clear, templates):
     # Takes screenshot, downsamples, and smart crops
@@ -51,7 +47,6 @@ def screenshot(to_clear, templates):
     # convert to tensor and normalize
     resized_tensor = torch.from_numpy(resized_np)
     resized_tensor = resized_tensor/255
-
 
     return resized_tensor
 

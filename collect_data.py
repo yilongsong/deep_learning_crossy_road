@@ -9,16 +9,17 @@
 # Press escape key to exit
 # Need to clean up images collected in the beginning and near the end
 
-from pynput import keyboard # For taking screenshots upon keypresses
+from pynput import keyboard
 from pynput.keyboard import Key
-import threading # To handle threading
+import threading
 import time
 import random
 
 import mss
 import mss.tools
 
-number_screenshots_per_second = 0.5
+number_screenshots_per_second = 2
+lock = False
 
 def screenshot(directory):
     with mss.mss() as sct:
@@ -30,34 +31,29 @@ def screenshot(directory):
     
 
 def on_press(key):
-    if key == Key.right:
-        screenshot('right')
-        print('right')
-    elif key == Key.left:
-        screenshot('left')
-        print('left')
-    elif key == Key.up:
+    if key == Key.up:
+        global lock
+        lock = True
         screenshot('up')
         print('up')
-    elif key == Key.down:
-        screenshot('down')
-        print('down')
+        time.sleep(1/number_screenshots_per_second)
+        lock = False
     elif key == Key.esc: # To exit
         print("EXIT")
         exit()
 
 def start_key_listener():
     with keyboard.Listener(on_press=on_press) as listener:
-        listener.join()
+        global lock
+        while True:
+            if lock == False:
+                screenshot('noop')
+                print('noop')
+                time.sleep(1/number_screenshots_per_second)
 
 def main():
     key_listener_thread = threading.Thread(target=start_key_listener)
     key_listener_thread.start()
-
-    while True:
-        screenshot('noop')
-        print('noop')
-        time.sleep(1/number_screenshots_per_second)
 
 
 if __name__ == '__main__':
