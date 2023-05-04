@@ -18,7 +18,7 @@ import random
 import mss
 import mss.tools
 
-number_screenshots_per_second = 2
+number_screenshots_per_second = 5
 lock = False
 
 def screenshot(directory):
@@ -46,10 +46,10 @@ def start_key_listener():
     with keyboard.Listener(on_press=on_press) as listener:
         global lock
         while True:
+            time.sleep(1/number_screenshots_per_second)
             if lock == False:
                 screenshot('noop')
                 print('noop')
-                time.sleep(1/number_screenshots_per_second)
 
 def main():
     key_listener_thread = threading.Thread(target=start_key_listener)
