@@ -37,7 +37,7 @@ class ConvNet(nn.Module):
             nn.Linear(128*5*14, 512),
             nn.ReLU(inplace=True),
             nn.Dropout(p=0.5),
-            nn.Linear(512, 5),
+            nn.Linear(512, 2),
         )
     
     def forward(self, x):
@@ -63,7 +63,7 @@ def main():
     
     transform = transforms.ToTensor()
 
-    for folder in ['down', 'left', 'right', 'up', 'noop']:
+    for folder in ['up', 'noop']:
         for file in os.listdir('dataset/smart_cropped/'+folder):
             if file == '.DS_Store':
                 continue
@@ -76,16 +76,10 @@ def main():
                 continue
 
             X.append(x)
-            if folder == 'up':
-                y.append(0)
-            if folder == 'down':
-                y.append(1)
-            if folder == 'left':
-                y.append(2)
-            if folder == 'right':
-                y.append(3)
             if folder == 'noop':
-                y.append(4)
+                y.append(0)
+            if folder == 'up':
+                y.append(1)
 
 
     # Shuffle X and y

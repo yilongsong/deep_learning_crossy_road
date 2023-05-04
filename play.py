@@ -52,18 +52,9 @@ def screenshot(to_clear, templates):
 
 
 def move(n):
-    if n==0:
+    if n==1:
         pyautogui.press('up') 
         print('up')
-    elif n==1:
-        pyautogui.press('down') 
-        print('down')
-    elif n==2:
-        pyautogui.press('left') 
-        print('left')
-    elif n==3:
-        pyautogui.press('right') 
-        print('right')
     else:
         print('noop')
     
