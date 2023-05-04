@@ -29,7 +29,7 @@ from smartcrop_data import load_to_clear, load_templates, smart_crop
 import random
 
 
-number_screenshots_per_second = 3
+number_screenshots_per_second = 10
 
 def screenshot(to_clear, templates):
     # Takes screenshot, downsamples, and smart crops
@@ -45,6 +45,10 @@ def screenshot(to_clear, templates):
 
     # smart crop
     resized_np = smart_crop(resized_np, templates, to_clear)
+
+    cv2.imwrite('dataset/test/'+str(random.randint(10000, 100000))+'.png', resized_np)
+
+    resized_np = np.transpose(resized_np, (2,1,0))
 
     # convert to tensor and normalize
     resized_tensor = torch.from_numpy(resized_np)

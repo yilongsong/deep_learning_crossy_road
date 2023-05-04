@@ -8,7 +8,6 @@ import cv2
 import numpy as np
 import os
 from functools import reduce
-import time
 
 def load_to_clear(l):
     for x in range(224):
