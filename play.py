@@ -37,10 +37,11 @@ def screenshot(to_clear, templates):
         img = sct.grab({'top': 25, 'left': 0, 'width': 788, 'height': 619})
 
     img_np = np.array(img)
+    img_np = img_np[:,:,:3]
+
 
     # Downsample
     resized_np = cv2.resize(img_np, (236,186))
-    resized_np = cv2.cvtColor(resized_np, cv2.COLOR_BGR2RGB)
 
     # smart crop
     resized_np = smart_crop(resized_np, templates, to_clear)

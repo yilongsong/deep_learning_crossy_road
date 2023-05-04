@@ -24,7 +24,6 @@ def screenshot(directory):
     with mss.mss() as sct:
         # Screenshot
         img = sct.grab({'top': 25, 'left': 0, 'width': 788, 'height': 619}) # Adjusted for juliet playing crossy road
-        # When moving the BlueStacks simulator window to the top left corner of the screen.
 
         # Save file
         mss.tools.to_png(img.rgb, img.size, output='./dataset/raw/'+directory+'/'+str(random.randint(100000, 1000000))+'.png')
