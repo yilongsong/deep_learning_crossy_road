@@ -65,9 +65,10 @@ def main():
         for file in os.listdir('dataset/smart_cropped/'+folder):
             if file == '.DS_Store':
                 continue
-            x = Image.open('dataset/smart_cropped/'+folder+'/'+file)
+            img = Image.open('dataset/smart_cropped/'+folder+'/'+file)
             transform = transforms.ToTensor()
-            x = transform(x)
+            x = transform(img)
+            img.close()
 
             # safeguard against uneven results yielded from smartcropping
             if x.shape!=(3,88,236):
