@@ -60,13 +60,14 @@ def main():
     # Load data
     X = []
     y = []
+    
+    transform = transforms.ToTensor()
 
     for folder in ['down', 'left', 'right', 'up', 'noop']:
         for file in os.listdir('dataset/smart_cropped/'+folder):
             if file == '.DS_Store':
                 continue
             img = Image.open('dataset/smart_cropped/'+folder+'/'+file)
-            transform = transforms.ToTensor()
             x = transform(img)
             img.close()
 
