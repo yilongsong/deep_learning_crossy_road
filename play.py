@@ -25,7 +25,7 @@ from smartcrop_data import load_to_clear, load_templates, smart_crop
 import time
 
 
-number_screenshots_per_second = 6
+number_screenshots_per_second = 10
 
 def screenshot(to_clear, templates):
     # Takes screenshot, downsamples, and smart crops

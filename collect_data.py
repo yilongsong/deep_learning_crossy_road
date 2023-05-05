@@ -32,24 +32,19 @@ def screenshot(directory):
 
 def on_press(key):
     if key == Key.up:
-        global lock
-        lock = True
         screenshot('up')
         print('up')
-        time.sleep(1/number_screenshots_per_second)
-        lock = False
+
+    elif key == Key.shift_l:
+        screenshot('noop')
+        print('noop')
     elif key == Key.esc: # To exit
         print("EXIT")
         exit()
 
 def start_key_listener():
     with keyboard.Listener(on_press=on_press) as listener:
-        global lock
-        while True:
-            time.sleep(1/number_screenshots_per_second)
-            if lock == False:
-                screenshot('noop')
-                print('noop')
+        listener.join()
 
 def main():
     key_listener_thread = threading.Thread(target=start_key_listener)
