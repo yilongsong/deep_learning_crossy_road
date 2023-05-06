@@ -9,13 +9,13 @@ import numpy as np
 import os
 from functools import reduce
 
-def load_to_clear(l):
+def load_to_clear(l): # Load pixels to not consider in tracking into list l
     for x in range(224):
         for y in range(167):
             if y < 70 or y < (112/224)*x:
                 l.append((x,y))
 
-def clear_region(a, l):
+def clear_region(a, l): # Set pixels in l to 0 in tracking map
     a_copy = a.copy()
     for x, y in l:
         a_copy[y,x] = 0
@@ -28,7 +28,7 @@ def load_templates(templates):
         template = cv2.imread('dataset/templates/'+file)
         templates.append(template)
 
-def smart_crop(img, templates, to_clear):
+def smart_crop(img, templates, to_clear): # Track and crop
     res = []
     for t in templates:
         res.append(cv2.matchTemplate(img, t, cv2.TM_CCOEFF_NORMED))
