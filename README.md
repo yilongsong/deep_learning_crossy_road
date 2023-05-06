@@ -120,7 +120,7 @@ The answer, perhaps embarrassingly, is we collect the data ourselves manually. H
       save_screenshot(screenshot(), 'data/noop')
       sleep(1/n)
 
-Again, the final version of [collect_data.py](https://github.com/yilongsong/deep_learning_crossy_road/blob/main/collect_data.py) looks different. This will be discussed in the section **Optimization: Data Collection Threading and Strategy**.
+Again, the final version of [collect_data.py](https://github.com/yilongsong/deep_learning_crossy_road/blob/main/collect_data.py) looks different. This will be discussed in the section **Optimization: Data Collection Strategy**.
 
 To use this script, the human data collector simply runs the script and starts playing. Every time the human makes a move, a screenshot is taken and saved to the corresponding folder. This happens on one thread. On the main thread, screenshots with the no-operation label are taken and saved to the “noop” folder at a constant rate.
 
@@ -162,7 +162,7 @@ A directly observable issue with this approach is that avatar tracking doesn’t
 
 ![](https://cdn-images-1.medium.com/max/2000/1*8vXuR6HUXdhA1tl-XJH2Mw.png)
 
-![Example or error possibly due to untypical avatar model/surrounding pixel color](https://cdn-images-1.medium.com/max/2000/1*gTXyXeZ8mzcja-xQw8zvOA.png)
+![Example or error possibly due to atypical avatar model/surrounding pixel color](https://cdn-images-1.medium.com/max/2000/1*gTXyXeZ8mzcja-xQw8zvOA.png)
 
 ![](https://cdn-images-1.medium.com/max/2000/1*CdlU0pLqDp2TnoHg1J_yGw.png)
 
@@ -180,7 +180,7 @@ The implement of tracking, as shown in the video above, somehow makes the model 
 
  <iframe src="https://medium.com/media/fe83ab6a36dcbc39c5e060fb73c18664" frameborder=0></iframe>
 
-This optimization, despite its simplicity, advances the performance of the model considerably — the testing accuracy also increases to around 70%.
+This optimization, despite its simplicity, advances the performance of the model considerably. The testing accuracy also increases to around 70%.
 
 ## Optimization: Data Collection Strategy
 
